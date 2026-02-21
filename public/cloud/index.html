@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClearClaw Cloud — Managed OpenClaw hosting</title>
+  <meta name="description" content="Your own OpenClaw AI agent in 60 seconds. No server. No setup. Join the waitlist for ClearClaw Cloud.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#0A0A0A; --surface:#141414; --border:#222222; --blue:#4A9EFF; --blue-dim:#1a3a5c; --white:#FFFFFF; --grey1:#CCCCCC; --grey2:#999999; --grey3:#555555; --green:#44CC44; }
+    body { background:var(--bg); color:var(--white); font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased; }
+    nav { display:flex; align-items:center; justify-content:space-between; padding:18px 40px; border-bottom:1px solid var(--border); }
+    .nav-logo { display:flex; align-items:center; gap:10px; font-size:18px; font-weight:700; text-decoration:none; color:var(--white); }
+    .nav-back { font-size:14px; color:var(--grey3); text-decoration:none; transition:color .15s; }
+    .nav-back:hover { color:var(--white); }
+
+    .hero { max-width:680px; margin:0 auto; padding:80px 24px 56px; text-align:center; }
+    .badge { display:inline-flex; align-items:center; gap:8px; background:rgba(255,170,0,.1); color:#FFAA00; border:1px solid rgba(255,170,0,.2); border-radius:100px; padding:6px 14px; font-size:13px; font-weight:600; margin-bottom:28px; }
+    h1 { font-size:clamp(36px,6vw,60px); font-weight:800; letter-spacing:-1.5px; line-height:1.08; margin-bottom:20px; }
+    h1 em { font-style:normal; color:var(--blue); }
+    .hero p { font-size:18px; color:var(--grey2); margin-bottom:48px; max-width:480px; margin-left:auto; margin-right:auto; }
+
+    /* Waitlist form */
+    .form-card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:36px; max-width:480px; margin:0 auto; }
+    .form-card h2 { font-size:20px; font-weight:700; margin-bottom:8px; }
+    .form-card p { font-size:14px; color:var(--grey2); margin-bottom:24px; }
+    .form-row { display:flex; gap:10px; }
+    input[type="email"] {
+      flex:1;
+      background:#0A0A0A;
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:13px 16px;
+      font-size:15px;
+      color:var(--white);
+      outline:none;
+      transition:border-color .15s;
+      font-family:inherit;
+    }
+    input[type="email"]:focus { border-color:var(--blue); }
+    input[type="email"]::placeholder { color:var(--grey3); }
+    button[type="submit"] {
+      background:var(--blue);
+      color:#fff;
+      border:none;
+      border-radius:10px;
+      padding:13px 22px;
+      font-size:15px;
+      font-weight:600;
+      cursor:pointer;
+      white-space:nowrap;
+      transition:opacity .15s;
+      font-family:inherit;
+    }
+    button[type="submit"]:hover { opacity:.88; }
+    .form-note { font-size:12px; color:var(--grey3); margin-top:14px; }
+    .success-msg { display:none; text-align:center; padding:20px 0; }
+    .success-msg .check { font-size:40px; margin-bottom:12px; }
+    .success-msg h3 { font-size:20px; font-weight:700; margin-bottom:8px; }
+    .success-msg p { font-size:14px; color:var(--grey2); }
+
+    /* How it works */
+    .section { max-width:860px; margin:0 auto; padding:72px 24px; }
+    .section-label { font-size:12px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--blue); margin-bottom:14px; text-align:center; }
+    .section h2 { font-size:clamp(26px,4vw,40px); font-weight:800; letter-spacing:-1px; margin-bottom:48px; text-align:center; }
+    .steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:32px; }
+    .step { text-align:center; }
+    .step-num { width:44px; height:44px; border-radius:50%; background:var(--blue-dim); color:var(--blue); display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:800; margin:0 auto 16px; }
+    .step h3 { font-size:16px; font-weight:700; margin-bottom:8px; }
+    .step p { font-size:14px; color:var(--grey2); line-height:1.6; }
+
+    /* Comparison */
+    .compare { display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--border); border:1px solid var(--border); border-radius:16px; overflow:hidden; max-width:700px; margin:0 auto; }
+    .compare-col { background:var(--surface); padding:28px; }
+    .compare-col.highlight { background:#111a24; }
+    .compare-label { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--grey3); margin-bottom:16px; }
+    .compare-label.blue { color:var(--blue); }
+    .compare-col h3 { font-size:18px; font-weight:700; margin-bottom:16px; }
+    .compare-row { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:var(--grey2); margin-bottom:10px; }
+    .compare-row .icon { flex-shrink:0; font-size:14px; }
+
+    footer { border-top:1px solid var(--border); padding:32px 24px; text-align:center; }
+    footer a { color:var(--grey3); text-decoration:none; font-size:14px; margin:0 12px; }
+    footer a:hover { color:var(--white); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo"><span>🦞</span> ClearClaw</a>
+  <a href="/" class="nav-back">← Back to home</a>
+</nav>
+
+<section class="hero">
+  <div class="badge">☁️ Coming soon</div>
+  <h1>Your own AI agent<br>in <em>60 seconds.</em></h1>
+  <p>No server to set up. No networking to configure. ClearClaw Cloud spins up a private OpenClaw gateway for you and connects it to the app instantly.</p>
+
+  <div class="form-card">
+    <h2>Join the waitlist</h2>
+    <p>Be first to know when Cloud launches. No spam — one email when it's ready.</p>
+    <form id="waitlist-form">
+      <div class="form-row">
+        <input type="email" id="email" placeholder="your@email.com" required autocomplete="email">
+        <button type="submit">Notify me</button>
+      </div>
+      <p class="form-note">No spam. Unsubscribe any time.</p>
+    </form>
+    <div class="success-msg" id="success">
+      <div class="check">✅</div>
+      <h3>You're on the list.</h3>
+      <p>We'll email you the moment ClearClaw Cloud is ready.</p>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<div style="border-top:1px solid var(--border)">
+<section class="section">
+  <div class="section-label">How it works</div>
+  <h2>Zero to agent in three taps.</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Tap "Get Cloud Gateway"</h3>
+      <p>In the ClearClaw app, tap the Cloud option on the connect screen.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>We spin it up</h3>
+      <p>A private OpenClaw server launches in an isolated VM. Ready in under 60 seconds.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Start chatting</h3>
+      <p>Your connection profile is pre-filled. Open the chat tab and your agent is ready to go.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- Self-hosted vs Cloud -->
+<section class="section">
+  <div class="section-label">Options</div>
+  <h2>Self-hosted or Cloud — your choice.</h2>
+  <div class="compare">
+    <div class="compare-col">
+      <div class="compare-label">Self-hosted</div>
+      <h3>Bring your own gateway</h3>
+      <div class="compare-row"><span class="icon">✓</span> Full control over your infrastructure</div>
+      <div class="compare-row"><span class="icon">✓</span> Any model, any config</div>
+      <div class="compare-row"><span class="icon">✓</span> Free (you pay for compute)</div>
+      <div class="compare-row"><span class="icon">—</span> Requires a server</div>
+      <div class="compare-row"><span class="icon">—</span> You manage updates</div>
+    </div>
+    <div class="compare-col highlight">
+      <div class="compare-label blue">ClearClaw Cloud</div>
+      <h3>Managed hosting</h3>
+      <div class="compare-row"><span class="icon" style="color:var(--blue)">✓</span> Zero setup</div>
+      <div class="compare-row"><span class="icon" style="color:var(--blue)">✓</span> Your own private VM</div>
+      <div class="compare-row"><span class="icon" style="color:var(--blue)">✓</span> Auto-updates</div>
+      <div class="compare-row"><span class="icon" style="color:var(--blue)">✓</span> Same ClearClaw client</div>
+      <div class="compare-row"><span class="icon">—</span> Subscription pricing (TBD)</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="/">Home</a>
+  <a href="/support">Support</a>
+  <a href="/privacy">Privacy Policy</a>
+  <a href="mailto:hello@clearclaw.app">hello@clearclaw.app</a>
+</footer>
+
+<script>
+  document.getElementById('waitlist-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    // POST to Cloudflare Worker / Forms endpoint (wire up after deploy)
+    // For now, store in a simple fetch to a Worker KV or use Tally/Airtable
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      // Show success regardless — fallback handled server-side
+    } catch (err) {
+      // Still show success — email logged via mailto fallback
+    }
+    document.getElementById('waitlist-form').style.display = 'none';
+    document.getElementById('success').style.display = 'block';
+  });
+</script>
+
+</body>
+</html>

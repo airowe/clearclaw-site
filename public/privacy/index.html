@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — ClearClaw</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#0A0A0A; --surface:#141414; --border:#222222; --blue:#4A9EFF; --white:#FFFFFF; --grey1:#CCCCCC; --grey2:#999999; --grey3:#555555; }
+    body { background:var(--bg); color:var(--white); font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif; line-height:1.7; -webkit-font-smoothing:antialiased; }
+    nav { display:flex; align-items:center; justify-content:space-between; padding:18px 40px; border-bottom:1px solid var(--border); }
+    .nav-logo { display:flex; align-items:center; gap:10px; font-size:18px; font-weight:700; text-decoration:none; color:var(--white); }
+    .content { max-width:720px; margin:0 auto; padding:64px 24px 96px; }
+    h1 { font-size:36px; font-weight:800; letter-spacing:-0.5px; margin-bottom:8px; }
+    .updated { font-size:14px; color:var(--grey3); margin-bottom:48px; }
+    h2 { font-size:20px; font-weight:700; margin:40px 0 12px; }
+    p { font-size:16px; color:var(--grey1); margin-bottom:16px; }
+    ul { padding-left:20px; margin-bottom:16px; }
+    li { font-size:16px; color:var(--grey1); margin-bottom:8px; }
+    a { color:var(--blue); }
+    footer { border-top:1px solid var(--border); padding:32px 24px; text-align:center; }
+    footer a { color:var(--grey3); text-decoration:none; font-size:14px; margin:0 12px; }
+    footer a:hover { color:var(--white); }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo"><span>🦞</span> ClearClaw</a>
+</nav>
+<div class="content">
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated: February 2026</p>
+
+  <h2>The short version</h2>
+  <p>ClearClaw does not collect, store, or transmit any personal data. Full stop.</p>
+
+  <h2>What data ClearClaw collects</h2>
+  <p>None. ClearClaw does not collect any personal information, usage data, analytics, crash reports, or any other data from your device or your usage of the app.</p>
+
+  <h2>How the app works</h2>
+  <p>ClearClaw communicates exclusively with the OpenClaw gateway server that you configure and control. All messages, tool calls, and agent responses travel directly between your iPhone and your own server. No third-party servers are involved in this communication.</p>
+
+  <h2>Authentication tokens</h2>
+  <p>Any authentication tokens you enter are stored exclusively in the iOS keychain on your device. They are encrypted by the operating system and are never transmitted to any server other than the OpenClaw gateway you configure. Tokens are not readable by other apps and are removed when you delete the app.</p>
+
+  <h2>OAuth tokens</h2>
+  <p>When you connect third-party services (such as Google or Microsoft) via the integrations feature, OAuth access tokens are obtained through the standard authorization flow and stored in the iOS keychain. These tokens are sent only to your own OpenClaw gateway server, not to ClearClaw or any third party.</p>
+
+  <h2>No accounts</h2>
+  <p>ClearClaw has no account system, no sign-up, no login, and no user identity. There is no way for us to associate any data with any individual user because we receive no data at all.</p>
+
+  <h2>No analytics or tracking</h2>
+  <p>ClearClaw contains no analytics SDKs, no crash reporting services, no advertising identifiers, and no tracking of any kind. We do not use the Advertising Identifier (IDFA). We do not track users across apps or websites.</p>
+
+  <h2>Network connections</h2>
+  <p>The only network connections made by ClearClaw are:</p>
+  <ul>
+    <li>WebSocket connections to the OpenClaw gateway server address you configure</li>
+    <li>OAuth authorization flows when you explicitly initiate an integration (these connect to the third-party OAuth provider you choose, such as Google or Microsoft)</li>
+    <li>The optional Cloud waitlist form at clearclaw.app/cloud, which is only opened if you tap the waitlist link</li>
+  </ul>
+  <p>All connections to your gateway are encrypted using TLS (Transport Layer Security).</p>
+
+  <h2>Local network</h2>
+  <p>ClearClaw requests local network access to scan for OpenClaw servers on your Wi-Fi network during setup. This scan is performed locally on your device and the results are never transmitted anywhere.</p>
+
+  <h2>Children's privacy</h2>
+  <p>ClearClaw is not directed at children under 13 and does not knowingly collect data from children. As noted above, we collect no data from anyone.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>If we ever change our privacy practices, we will update this page and the date above. Given that we collect no data, meaningful changes are unlikely.</p>
+
+  <h2>Contact</h2>
+  <p>Questions? Email us at <a href="mailto:hello@clearclaw.app">hello@clearclaw.app</a></p>
+</div>
+<footer>
+  <a href="/">Home</a>
+  <a href="/support">Support</a>
+  <a href="/privacy">Privacy Policy</a>
+  <a href="mailto:hello@clearclaw.app">hello@clearclaw.app</a>
+</footer>
+</body>
+</html>

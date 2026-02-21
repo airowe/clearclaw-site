@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClearClaw — Control your AI agent</title>
+  <meta name="description" content="A native iOS client for your self-hosted OpenClaw AI gateway. Real-time tool visibility, human-in-the-loop approvals, and OAuth integrations — all from your iPhone.">
+  <meta property="og:title" content="ClearClaw — Control your AI agent">
+  <meta property="og:description" content="A native iOS client for your self-hosted OpenClaw AI gateway.">
+  <meta property="og:url" content="https://clearclaw.app">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.ico">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0A0A0A;
+      --surface:  #141414;
+      --border:   #222222;
+      --blue:     #4A9EFF;
+      --blue-dim: #1a3a5c;
+      --white:    #FFFFFF;
+      --grey1:    #CCCCCC;
+      --grey2:    #999999;
+      --grey3:    #555555;
+      --green:    #44CC44;
+      --amber:    #FFAA00;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--white);
+    }
+    .nav-logo span { font-size: 22px; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a {
+      color: var(--grey2);
+      text-decoration: none;
+      font-size: 15px;
+      transition: color .15s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity .15s, transform .1s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn:hover { opacity: .88; transform: translateY(-1px); }
+    .btn-primary { background: var(--blue); color: var(--white); }
+    .btn-outline { background: transparent; color: var(--white); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--grey3); }
+
+    /* ── Hero ── */
+    .hero {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 96px 24px 80px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue-dim);
+      color: var(--blue);
+      border: 1px solid rgba(74,158,255,.25);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(40px, 6vw, 68px);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -1.5px;
+      margin-bottom: 24px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--blue);
+    }
+    .hero p {
+      font-size: 20px;
+      color: var(--grey2);
+      max-width: 560px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .appstore-btn {
+      display: inline-block;
+      transition: opacity .15s, transform .1s;
+    }
+    .appstore-btn:hover { opacity: .88; transform: translateY(-1px); }
+    .appstore-btn img { height: 52px; }
+
+    /* ── Phone mockup ── */
+    .mockup-wrap {
+      max-width: 320px;
+      margin: 72px auto 0;
+    }
+    .mockup {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      padding: 16px;
+      box-shadow: 0 40px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04);
+    }
+    .mockup-screen {
+      background: var(--bg);
+      border-radius: 28px;
+      overflow: hidden;
+      padding: 20px 16px;
+      min-height: 520px;
+    }
+    .mockup-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+    }
+    .mockup-header-text { font-size: 13px; font-weight: 600; color: var(--white); }
+    .mockup-header-sub { font-size: 11px; color: var(--grey3); }
+    .chat-bubble {
+      border-radius: 14px;
+      padding: 10px 14px;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 8px;
+      max-width: 85%;
+    }
+    .chat-bubble.user {
+      background: var(--blue);
+      color: var(--white);
+      margin-left: auto;
+    }
+    .chat-bubble.agent {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--grey1);
+    }
+    .tool-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(74,158,255,.12);
+      border: 1px solid rgba(74,158,255,.2);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 11px;
+      color: var(--blue);
+      margin-bottom: 8px;
+    }
+    .tool-badge .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .3; }
+    }
+    .approval-card {
+      background: var(--surface);
+      border: 1px solid var(--amber);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 8px;
+    }
+    .approval-label {
+      font-size: 11px;
+      color: var(--amber);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .approval-action {
+      font-size: 12px;
+      color: var(--grey1);
+      font-family: 'SF Mono', monospace;
+      margin-bottom: 10px;
+    }
+    .approval-btns { display: flex; gap: 8px; }
+    .approval-btns button {
+      flex: 1;
+      padding: 7px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      border: none;
+      cursor: default;
+    }
+    .btn-approve { background: var(--green); color: #000; }
+    .btn-deny { background: var(--surface); color: var(--grey2); border: 1px solid var(--border); }
+
+    /* ── Features ── */
+    .section {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 14px;
+    }
+    .section h2 {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+    .section > p {
+      font-size: 18px;
+      color: var(--grey2);
+      max-width: 540px;
+      margin-bottom: 56px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .feature-card {
+      background: var(--surface);
+      padding: 32px;
+      transition: background .2s;
+    }
+    .feature-card:hover { background: #181818; }
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+    .feature-card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .feature-card p {
+      font-size: 14px;
+      color: var(--grey2);
+      line-height: 1.6;
+    }
+
+    /* ── Privacy strip ── */
+    .privacy-strip {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .privacy-strip .section {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      flex-wrap: wrap;
+      padding: 48px 24px;
+    }
+    .privacy-strip h2 {
+      font-size: 28px;
+      font-weight: 800;
+      flex: 0 0 auto;
+      margin: 0;
+    }
+    .privacy-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px 32px;
+      flex: 1;
+    }
+    .privacy-point {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--grey1);
+    }
+    .privacy-point span { color: var(--green); font-size: 16px; }
+
+    /* ── CTA ── */
+    .cta-section {
+      text-align: center;
+      padding: 96px 24px;
+    }
+    .cta-section h2 {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+    .cta-section p {
+      font-size: 18px;
+      color: var(--grey2);
+      margin-bottom: 40px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+    }
+    .footer-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--white);
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-size: 14px;
+      color: var(--grey3);
+      text-decoration: none;
+      transition: color .15s;
+    }
+    .footer-links a:hover { color: var(--grey1); }
+    .footer-copy {
+      font-size: 13px;
+      color: var(--grey3);
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 16px 20px; }
+      .nav-links { gap: 16px; }
+      .hero { padding: 64px 20px 56px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a href="/" class="nav-logo"><span>🦞</span> ClearClaw</a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="/cloud">Cloud</a>
+    <a href="/support">Docs</a>
+    <a href="https://github.com/airowe/clearclaw" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://apps.apple.com/app/clearclaw/id6759474869" class="btn btn-primary" target="_blank" rel="noopener">Download</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-badge">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><circle cx="6" cy="6" r="6"/></svg>
+    Now available on the App Store
+  </div>
+  <h1>Your AI agent,<br><em>under control.</em></h1>
+  <p>A native iPhone client for your self-hosted OpenClaw gateway. See every tool call. Approve every sensitive action. Stay in charge.</p>
+  <div class="hero-actions">
+    <a href="https://apps.apple.com/app/clearclaw/id6759474869" class="appstore-btn" target="_blank" rel="noopener">
+      <img src="/appstore-badge.svg" alt="Download on the App Store">
+    </a>
+    <a href="/cloud" class="btn btn-outline">Don't have a server? →</a>
+  </div>
+
+  <!-- Phone mockup -->
+  <div class="mockup-wrap">
+    <div class="mockup">
+      <div class="mockup-screen">
+        <div class="mockup-header">
+          <div class="status-dot"></div>
+          <div>
+            <div class="mockup-header-text">Friday</div>
+            <div class="mockup-header-sub">claude-sonnet-4-6 · $0.003</div>
+          </div>
+        </div>
+        <div class="chat-bubble user">Search for flights to Tokyo next month under $800</div>
+        <div class="tool-badge"><div class="dot"></div> web_search · running</div>
+        <div class="chat-bubble agent">Found 3 options. Cheapest is JAL via LAX at $734 departing March 12.</div>
+        <div class="approval-card">
+          <div class="approval-label">⚠ Requires Approval</div>
+          <div class="approval-action">exec: open_browser("jal.com/book?...")</div>
+          <div class="approval-btns">
+            <button class="btn-approve">Approve</button>
+            <button class="btn-deny">Deny</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section" id="features">
+  <div class="section-label">Features</div>
+  <h2>Everything your agent needs.<br>Nothing it doesn't.</h2>
+  <p>Built for power users who run their own infrastructure and want a proper mobile interface for it.</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🔍</div>
+      <h3>Real-time tool visibility</h3>
+      <p>Watch every tool call as it happens — web search, code execution, file access — with live status badges and expandable debug traces.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">✋</div>
+      <h3>Human-in-the-loop approvals</h3>
+      <p>Sensitive actions pause and route to you. Review the exact command, see the risk level, then approve or deny — before anything runs.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔗</div>
+      <h3>OAuth integrations</h3>
+      <p>Connect Google, Microsoft, and other services to your agent in one tap. Tokens refresh automatically and never leave your device.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📱</div>
+      <h3>Multi-connection profiles</h3>
+      <p>Manage multiple OpenClaw servers from one app. Work server, home lab, cloud instance — switch profiles instantly.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💰</div>
+      <h3>Token cost tracking</h3>
+      <p>See live cost per message across Claude, GPT-4, and Gemini. Know exactly what each session costs before it adds up.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🖼</div>
+      <h3>Image attachments</h3>
+      <p>Send photos, screenshots, and camera captures directly to your agent for visual analysis, OCR, or code review.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Privacy strip -->
+<div class="privacy-strip">
+  <div class="section">
+    <h2>Your data never leaves your hands.</h2>
+    <div class="privacy-points">
+      <div class="privacy-point"><span>✓</span> No accounts or sign-up</div>
+      <div class="privacy-point"><span>✓</span> No cloud storage</div>
+      <div class="privacy-point"><span>✓</span> No analytics or tracking</div>
+      <div class="privacy-point"><span>✓</span> Tokens stored in iOS keychain only</div>
+      <div class="privacy-point"><span>✓</span> Connects only to your own server</div>
+      <div class="privacy-point"><span>✓</span> All traffic encrypted (TLS)</div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Ready to take control?</h2>
+  <p>Download free. Bring your own OpenClaw gateway,<br>or <a href="/cloud" style="color:var(--blue);text-decoration:none;">join the waitlist</a> for ClearClaw Cloud.</p>
+  <a href="https://apps.apple.com/app/clearclaw/id6759474869" class="appstore-btn" target="_blank" rel="noopener">
+    <img src="/appstore-badge.svg" alt="Download on the App Store">
+  </a>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <a href="/" class="footer-logo"><span>🦞</span> ClearClaw</a>
+    <div class="footer-links">
+      <a href="/support">Support</a>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/cloud">Cloud Waitlist</a>
+      <a href="https://github.com/airowe/clearclaw" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:hello@clearclaw.app">hello@clearclaw.app</a>
+    </div>
+    <div class="footer-copy">© 2026 Adam Rowe</div>
+  </div>
+</footer>
+
+</body>
+</html>

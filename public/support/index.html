@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support — ClearClaw</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#0A0A0A; --surface:#141414; --border:#222222; --blue:#4A9EFF; --white:#FFFFFF; --grey1:#CCCCCC; --grey2:#999999; --grey3:#555555; }
+    body { background:var(--bg); color:var(--white); font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif; line-height:1.7; -webkit-font-smoothing:antialiased; }
+    nav { display:flex; align-items:center; justify-content:space-between; padding:18px 40px; border-bottom:1px solid var(--border); }
+    .nav-logo { display:flex; align-items:center; gap:10px; font-size:18px; font-weight:700; text-decoration:none; color:var(--white); }
+    .content { max-width:720px; margin:0 auto; padding:64px 24px 96px; }
+    h1 { font-size:36px; font-weight:800; letter-spacing:-0.5px; margin-bottom:8px; }
+    .subtitle { font-size:18px; color:var(--grey2); margin-bottom:56px; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:28px; margin-bottom:16px; }
+    .card h2 { font-size:18px; font-weight:700; margin-bottom:8px; display:flex; align-items:center; gap:10px; }
+    .card p { font-size:15px; color:var(--grey2); margin-bottom:16px; }
+    .card a { display:inline-flex; align-items:center; gap:6px; background:var(--blue); color:#fff; padding:10px 18px; border-radius:8px; text-decoration:none; font-size:14px; font-weight:600; transition:opacity .15s; }
+    .card a:hover { opacity:.85; }
+    .card a.secondary { background:transparent; color:var(--blue); border:1px solid var(--border); }
+    h2.section-header { font-size:22px; font-weight:700; margin:48px 0 20px; }
+    .faq-item { border-bottom:1px solid var(--border); padding:20px 0; }
+    .faq-item:last-child { border-bottom:none; }
+    .faq-q { font-size:16px; font-weight:600; margin-bottom:8px; }
+    .faq-a { font-size:15px; color:var(--grey2); }
+    .faq-a code { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:1px 6px; font-family:'SF Mono',monospace; font-size:13px; color:var(--blue); }
+    footer { border-top:1px solid var(--border); padding:32px 24px; text-align:center; }
+    footer a { color:var(--grey3); text-decoration:none; font-size:14px; margin:0 12px; }
+    footer a:hover { color:var(--white); }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo"><span>🦞</span> ClearClaw</a>
+</nav>
+<div class="content">
+  <h1>Support</h1>
+  <p class="subtitle">Get help with ClearClaw. We're quick to respond.</p>
+
+  <div class="card">
+    <h2>📧 Email support</h2>
+    <p>Send us a message and we'll get back to you, usually within 24 hours.</p>
+    <a href="mailto:hello@clearclaw.app">hello@clearclaw.app</a>
+  </div>
+
+  <div class="card">
+    <h2>🐙 GitHub Issues</h2>
+    <p>Found a bug or have a feature request? Open an issue on GitHub.</p>
+    <a href="https://github.com/airowe/clearclaw/issues" target="_blank" rel="noopener">Open an issue</a>
+  </div>
+
+  <div class="card">
+    <h2>☁️ ClearClaw Cloud</h2>
+    <p>Don't have a self-hosted OpenClaw server? Join the waitlist for ClearClaw Cloud — managed hosting with one-tap setup.</p>
+    <a href="/cloud" class="secondary">Join the waitlist →</a>
+  </div>
+
+  <h2 class="section-header">Frequently asked questions</h2>
+
+  <div class="faq-item">
+    <div class="faq-q">What do I need to use ClearClaw?</div>
+    <div class="faq-a">A running OpenClaw gateway server accessible from your iPhone — either on your local network, over Tailscale, or on a public server. ClearClaw is the client; OpenClaw is the server. See <a href="https://openclaw.ai" style="color:var(--blue);">openclaw.ai</a> for server setup instructions.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">What's the default port?</div>
+    <div class="faq-a">OpenClaw runs on port <code>18789</code> by default. ClearClaw will auto-suggest this when you enter an endpoint.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">How do I connect from a physical iPhone (not a simulator)?</div>
+    <div class="faq-a">Use your Mac's local IP address (e.g. <code>192.168.1.x:18789</code>) on the same Wi-Fi network, or connect over <a href="https://tailscale.com" style="color:var(--blue);">Tailscale</a> for remote access. <code>localhost</code> won't work from a physical device.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Where are my tokens stored?</div>
+    <div class="faq-a">All authentication tokens are stored in the iOS keychain — encrypted by the OS, never transmitted to any server other than your own OpenClaw gateway.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Can I use ClearClaw with multiple servers?</div>
+    <div class="faq-a">Yes. ClearClaw supports multiple connection profiles. Add them from the Connections tab and switch between them instantly.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">The connection keeps dropping. What should I check?</div>
+    <div class="faq-a">Check that your OpenClaw server is still running, your network is stable, and that no firewall is blocking port <code>18789</code>. The diagnostics screen (shown during connection setup) will pinpoint exactly where the connection fails.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">How do approvals work?</div>
+    <div class="faq-a">When your agent attempts a sensitive action (file deletion, code execution, API calls), ClearClaw intercepts the request before it runs and shows you an approval sheet. You see exactly what will happen and can approve or deny it.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Does ClearClaw collect any data?</div>
+    <div class="faq-a">No. ClearClaw has no analytics, no accounts, and no cloud services. It communicates only with your own server. See our <a href="/privacy" style="color:var(--blue);">Privacy Policy</a> for full details.</div>
+  </div>
+</div>
+<footer>
+  <a href="/">Home</a>
+  <a href="/support">Support</a>
+  <a href="/privacy">Privacy Policy</a>
+  <a href="mailto:hello@clearclaw.app">hello@clearclaw.app</a>
+</footer>
+</body>
+</html>
